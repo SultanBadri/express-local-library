@@ -1,21 +1,22 @@
 const { body, validationResult } = require("express-validator");
-
 var Genre = require("../models/genre");
 var Book = require("../models/book");
 var async = require("async");
 
 // Display list of all Genre.
 exports.genre_list = function (req, res, next) {
-  Genre.find().sort([["name", "ascending"]]);
-  res.send("NOT IMPLEMENTED: Genre list").exec(function (err, list_genre) {
-    if (err) {
-      return next(err);
-    }
-    res.render("genre_list", {
-      title: "Genre List",
-      genre_list: list_genre,
+  Genre.find()
+    .sort([["name", "ascending"]])
+    .exec(function (err, list_genre) {
+      if (err) {
+        return next(err);
+      }
+      //Successful, so render
+      res.render("genre_list", {
+        title: "Genre List",
+        genre_list: list_genre,
+      });
     });
-  });
 };
 
 // Display detail page for a specific Genre.
@@ -54,7 +55,6 @@ exports.genre_create_get = function (req, res, next) {
   res.render("genre_form", { title: "Create Genre" });
 };
 
-// Handle Genre create on POST.
 // Handle Genre create on POST.
 exports.genre_create_post = [
   // Validate and santize the name field.
